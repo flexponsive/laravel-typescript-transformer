@@ -1,20 +1,18 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Spatie\LaravelTypeScriptTransformer\Transformers;
 
-use \Illuminate\Support\Str;
-use \phpDocumentor\Reflection\Type;
 use Illuminate\Database\Eloquent\Model as EloquentModel;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 use phpDocumentor\Reflection\Fqsen;
+use phpDocumentor\Reflection\Type;
 use ReflectionClass;
+use Spatie\TypeScriptTransformer\Attributes\LiteralTypeScriptType;
 use Spatie\TypeScriptTransformer\Structures\MissingSymbolsCollection;
 use Spatie\TypeScriptTransformer\Structures\TransformedType;
 use Spatie\TypeScriptTransformer\Transformers\Transformer;
 use Spatie\TypeScriptTransformer\Transformers\TransformsTypes;
-use Spatie\TypeScriptTransformer\TypeProcessors\ReplaceDefaultsTypeProcessor;
 use Spatie\TypeScriptTransformer\TypeScriptTransformerConfig;
 
 class EloquentModelTransformer implements Transformer
@@ -66,7 +64,7 @@ class EloquentModelTransformer implements Transformer
             $instance
         );
 
-        // TODO allow hiding relations through docstring or similar
+        // TODO allow hiding relations through docstring or similar?
 
         return $res;
     }
@@ -100,7 +98,6 @@ class EloquentModelTransformer implements Transformer
     {
         /* @var EloquentModel */
         $instance = $class->newInstance();
-
         $showModelCommand = app()->make(\Illuminate\Database\Console\ShowModelCommand::class);
         $showModelCommandReflection = new ReflectionClass($showModelCommand);
 
@@ -112,25 +109,45 @@ class EloquentModelTransformer implements Transformer
         return $res;
     }
 
+    public function getLiteralTypeScriptType(ReflectionClass $class) : array
+    {
+        $instance = $class->newInstance();
+        $attributes = (new ReflectionClass($instance))->getAttributes(LiteralTypeScriptType::class);
+
+        if (! $attributes) {
+            return [];
+        }
+
+        $overrides = (array)$attributes[0]->getArguments()[0];
+
+        return $overrides;
+    }
+
     public function transformProperties(
         ReflectionClass $class,
         MissingSymbolsCollection $missingSymbols
     ): string {
+        $literalTypeScriptType = $this->getLiteralTypeScriptType($class);
 
         return array_reduce(
             $this->getPublicAttributes($class)->toArray(),
-            function (string $carry, $property) use ($missingSymbols, $class) {
+            function (string $carry, $property) use ($missingSymbols, $class, $literalTypeScriptType) {
                 $type = null;
-                if ($property['cast']) {
-                    $type = $this->inferTypeFromCast($property['cast']);
-                } elseif ($property['type']) {
-                    $type = $this->inferTypeFromDbFieldDescription($property['type']);
+                
+                if (isset($literalTypeScriptType[$property['name']])) {
+                    $transformedType = $literalTypeScriptType[$property['name']];
+                } else {
+                    if ($property['cast']) {
+                        $type = $this->inferTypeFromCast($property['cast']);
+                    } elseif ($property['type']) {
+                        $type = $this->inferTypeFromDbFieldDescription($property['type']);
+                    }
+                    $transformedType = $this->typeToTypeScript(
+                        $type ?? new \phpDocumentor\Reflection\Types\Mixed_(),
+                        $missingSymbols,
+                        $class->getName(),
+                    );
                 }
-                $transformedType = $this->typeToTypeScript(
-                    $type ?? new \phpDocumentor\Reflection\Types\Mixed_(),
-                    $missingSymbols,
-                    $class->getName(),
-                );
 
                 $isOptional = $property['nullable'] == true;
 
@@ -212,5 +229,4 @@ class EloquentModelTransformer implements Transformer
             return null;
         }
     }
-
 }
