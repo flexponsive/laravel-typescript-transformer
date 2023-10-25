@@ -8,6 +8,7 @@ use Illuminate\Support\Str;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Type;
 use ReflectionClass;
+use ReflectionObject;
 use Spatie\TypeScriptTransformer\Structures\MissingSymbolsCollection;
 use Spatie\TypeScriptTransformer\Structures\TransformedType;
 use Spatie\TypeScriptTransformer\Transformers\Transformer;
@@ -68,6 +69,21 @@ class EloquentModelTransformer implements Transformer
         return $res;
     }
 
+    public function getPivotTypescriptType(
+        ReflectionClass $class,
+        MissingSymbolsCollection $missingSymbols,
+        string $relationName
+    ) : string {
+
+        $reflectionMethod = $class->getMethod($relationName);
+        $pivot = $reflectionMethod->invoke($class->newInstance());
+        $pivotReflection = new ReflectionClass($pivot);
+
+        $using = $missingSymbols->add($pivotReflection->getProperty('using')->getValue($pivot));
+        $accessor = $pivotReflection->getProperty('accessor')->getValue($pivot);
+        return "{ {$accessor}? : {$using} }";
+    }
+
     public function transformRelations(
         ReflectionClass $class,
         MissingSymbolsCollection $missingSymbols
@@ -84,7 +100,10 @@ class EloquentModelTransformer implements Transformer
                 );
 
                 $isMany = Str::endsWith($relation['type'], 'Many');
-
+                $isManyToMany = $relation['type'] == 'BelongsToMany';
+                if ($isManyToMany) {
+                    $transformedType .= " & " . ($this->getPivotTypescriptType($class, $missingSymbols, $relation['name']));
+                }
                 return $isMany
                     ? "{$carry}{$relation['name']}?: Array<{$transformedType}>;" . PHP_EOL
                     : "{$carry}{$relation['name']}?: {$transformedType};" . PHP_EOL;
@@ -200,7 +219,7 @@ class EloquentModelTransformer implements Transformer
         preg_match('/^([^ \(]+)/', $dbFieldDescription, $matches);
         $dbFieldType = $matches[1];
 
-        if ($dbFieldType == 'string') {
+        if ($dbFieldType == 'string' || Str::endsWith($dbFieldType, 'text')) {
             return new \phpDocumentor\Reflection\Types\String_();
         } elseif (Str::endsWith($dbFieldType, 'int')) {
             return new \phpDocumentor\Reflection\Types\Integer();
