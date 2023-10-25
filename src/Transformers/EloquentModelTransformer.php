@@ -8,7 +8,6 @@ use Illuminate\Support\Str;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Type;
 use ReflectionClass;
-use Spatie\TypeScriptTransformer\Attributes\LiteralTypeScriptType;
 use Spatie\TypeScriptTransformer\Structures\MissingSymbolsCollection;
 use Spatie\TypeScriptTransformer\Structures\TransformedType;
 use Spatie\TypeScriptTransformer\Transformers\Transformer;
@@ -32,7 +31,7 @@ class EloquentModelTransformer implements Transformer
 
     public function transform(ReflectionClass $class, string $name): ?TransformedType
     {
-        if (! $this->canTransform($class)) {
+        if (!$this->canTransform($class)) {
             return null;
         }
 
@@ -109,45 +108,25 @@ class EloquentModelTransformer implements Transformer
         return $res;
     }
 
-    public function getLiteralTypeScriptType(ReflectionClass $class) : array
-    {
-        $instance = $class->newInstance();
-        $attributes = (new ReflectionClass($instance))->getAttributes(LiteralTypeScriptType::class);
-
-        if (! $attributes) {
-            return [];
-        }
-
-        $overrides = (array)$attributes[0]->getArguments()[0];
-
-        return $overrides;
-    }
-
     public function transformProperties(
         ReflectionClass $class,
         MissingSymbolsCollection $missingSymbols
     ): string {
-        $literalTypeScriptType = $this->getLiteralTypeScriptType($class);
-
         return array_reduce(
             $this->getPublicAttributes($class)->toArray(),
-            function (string $carry, $property) use ($missingSymbols, $class, $literalTypeScriptType) {
+            function (string $carry, $property) use ($missingSymbols, $class) {
                 $type = null;
-                
-                if (isset($literalTypeScriptType[$property['name']])) {
-                    $transformedType = $literalTypeScriptType[$property['name']];
-                } else {
-                    if ($property['cast']) {
-                        $type = $this->inferTypeFromCast($property['cast']);
-                    } elseif ($property['type']) {
-                        $type = $this->inferTypeFromDbFieldDescription($property['type']);
-                    }
-                    $transformedType = $this->typeToTypeScript(
-                        $type ?? new \phpDocumentor\Reflection\Types\Mixed_(),
-                        $missingSymbols,
-                        $class->getName(),
-                    );
+
+                if ($property['cast']) {
+                    $type = $this->inferTypeFromCast($property['cast']);
+                } elseif ($property['type']) {
+                    $type = $this->inferTypeFromDbFieldDescription($property['type']);
                 }
+                $transformedType = $this->typeToTypeScript(
+                    $type ?? new \phpDocumentor\Reflection\Types\Mixed_(),
+                    $missingSymbols,
+                    $class->getName(),
+                );
 
                 $isOptional = $property['nullable'] == true;
 
