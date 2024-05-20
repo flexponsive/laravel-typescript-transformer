@@ -30,7 +30,7 @@ return [
         Spatie\LaravelTypeScriptTransformer\Transformers\SpatieStateTransformer::class,
         Spatie\TypeScriptTransformer\Transformers\EnumTransformer::class,
         Spatie\TypeScriptTransformer\Transformers\SpatieEnumTransformer::class,
-        Spatie\TypeScriptTransformer\Transformers\DtoTransformer::class,
+        Spatie\LaravelTypeScriptTransformer\Transformers\DtoTransformer::class,
     ],
 
     /*
@@ -42,6 +42,7 @@ return [
     'default_type_replacements' => [
         DateTime::class => 'string',
         DateTimeImmutable::class => 'string',
+        Carbon\CarbonInterface::class => 'string',
         Carbon\CarbonImmutable::class => 'string',
         Carbon\Carbon::class => 'string',
     ],
