@@ -1,18 +1,18 @@
 interface Movie {
     id: number;
     title: string;
-    plot?: string;
-    rating?: number;
-    metadata?: any[];
-    box_office?: number;
-    runtime?: number;
-    release_date?: string;
-    premiered_at?: string;
+    plot: string | null;
+    rating: number | null;
+    metadata: any[] | null;
+    box_office: number | null;
+    runtime: number | null;
+    release_date: string | null;
+    premiered_at: string | null;
     is_released: boolean;
-    director_id?: number;
-    created_at?: string;
-    updated_at?: string;
-    director?: Person;
+    director_id: number | null;
+    created_at: string | null;
+    updated_at: string | null;
+    director: Person | null;
     cast: Person & { pivot: Casting };
     awards: any[];
 }

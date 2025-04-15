@@ -69,10 +69,10 @@ class EloquentModelTransformer implements Transformer
     {
         return $attributes
             ->map(function ($attribute) {
-                $nullable = $attribute['nullable'] ? '?' : '';
                 $type = $this->mapAttributeType($attribute);
+                $type = $attribute['nullable'] ? "{$type} | null" : $type;
                 
-                return "    {$attribute['name']}{$nullable}: {$type};";
+                return "    {$attribute['name']}: {$type};";
             })
             ->join(PHP_EOL);
     }
@@ -104,7 +104,8 @@ class EloquentModelTransformer implements Transformer
                     $nullable = $foreignKeyAttribute ? $foreignKeyAttribute['nullable'] : false;
                 }
                 
-                return "    {$relation['name']}" . ($nullable ? '?' : '') . ": {$type};";
+                $type = $nullable ? "{$type} | null" : $type;
+                return "    {$relation['name']}: {$type};";
             })
             ->join(PHP_EOL);
     }
