@@ -3,12 +3,10 @@
 namespace Spatie\LaravelTypeScriptTransformer\Transformers;
 
 use Illuminate\Database\Eloquent\Model as EloquentModel;
+use Illuminate\Database\Eloquent\ModelInspector;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Str;
-use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Type;
 use ReflectionClass;
-use ReflectionObject;
 use Spatie\TypeScriptTransformer\Structures\MissingSymbolsCollection;
 use Spatie\TypeScriptTransformer\Structures\TransformedType;
 use Spatie\TypeScriptTransformer\Transformers\Transformer;
@@ -18,11 +16,14 @@ use Spatie\TypeScriptTransformer\TypeScriptTransformerConfig;
 class EloquentModelTransformer implements Transformer
 {
     use TransformsTypes;
+
     protected TypeScriptTransformerConfig $config;
+    protected ModelInspector $inspector;
 
     public function __construct(TypeScriptTransformerConfig $config)
     {
         $this->config = $config;
+        $this->inspector = new ModelInspector(app());
     }
 
     public function canTransform(ReflectionClass $class): bool
@@ -37,194 +38,78 @@ class EloquentModelTransformer implements Transformer
         }
 
         $missingSymbols = new MissingSymbolsCollection();
+        $details = $this->inspector->inspect($class->getName());
 
-        $type = join([
-            $this->transformProperties($class, $missingSymbols),
-            $this->transformRelations($class, $missingSymbols),
-        ]);
+        $properties = $this->transformProperties($details['attributes']);
+        $relations = $this->transformRelations($details['relations']);
+
+        $transformed = "interface {$name} {" . PHP_EOL;
+        $transformed .= $properties . PHP_EOL;
+        $transformed .= $relations . PHP_EOL;
+        $transformed .= "}";
+
+        // Add related models to missing symbols
+        foreach ($details['relations'] as $relation) {
+            $missingSymbols->add($relation['related']);
+        }
 
         return TransformedType::create(
             $class,
             $name,
-            "{" . PHP_EOL . $type . "}",
+            $transformed,
             $missingSymbols
         );
     }
 
-    public function getPublicRelations(ReflectionClass $class): Collection
+    protected function transformProperties(Collection $attributes): string
     {
-        /* @var EloquentModel */
-        $instance = $class->newInstance();
-
-        $showModelCommand = app()->make(\Illuminate\Database\Console\ShowModelCommand::class);
-        $showModelCommandReflection = new ReflectionClass($showModelCommand);
-
-        $res = $showModelCommandReflection->getMethod('getRelations')->invoke(
-            $showModelCommand,
-            $instance
-        );
-
-        // TODO allow hiding relations through docstring or similar?
-
-        return $res;
+        return $attributes
+            ->map(function ($attribute) {
+                $nullable = $attribute['nullable'] ? '?' : '';
+                $type = $this->mapAttributeType($attribute);
+                
+                return "    {$attribute['name']}{$nullable}: {$type};";
+            })
+            ->join(PHP_EOL);
     }
 
-    public function getPivotTypescriptType(
-        ReflectionClass $class,
-        MissingSymbolsCollection $missingSymbols,
-        string $relationName
-    ) : string {
-
-        $reflectionMethod = $class->getMethod($relationName);
-        $pivot = $reflectionMethod->invoke($class->newInstance());
-        $pivotReflection = new ReflectionClass($pivot);
-
-        $using = $missingSymbols->add($pivotReflection->getProperty('using')->getValue($pivot));
-        $accessor = $pivotReflection->getProperty('accessor')->getValue($pivot);
-        return "{ {$accessor}? : {$using} }";
-    }
-
-    public function transformRelations(
-        ReflectionClass $class,
-        MissingSymbolsCollection $missingSymbols
-    ): string {
-        return array_reduce(
-            $this->getPublicRelations($class)->toArray(),
-            function (string $carry, $relation) use ($missingSymbols, $class) {
-
-                $instanceType = new \phpDocumentor\Reflection\Types\Object_(new Fqsen('\\' . $relation['related']));
-                $transformedType = $this->typeToTypeScript(
-                    $instanceType,
-                    $missingSymbols,
-                    $class->getName(),
-                );
-
-                $isMany = Str::endsWith($relation['type'], 'Many');
-                $isManyToMany = $relation['type'] == 'BelongsToMany';
-                if ($isManyToMany) {
-                    $transformedType .= " & " . ($this->getPivotTypescriptType($class, $missingSymbols, $relation['name']));
-                }
-                return $isMany
-                    ? "{$carry}{$relation['name']}?: Array<{$transformedType}>;" . PHP_EOL
-                    : "{$carry}{$relation['name']}?: {$transformedType};" . PHP_EOL;
-            },
-            ''
-        );
-    }
-
-    public function getPublicAttributes(ReflectionClass $class): Collection
+    protected function transformRelations(Collection $relations): string
     {
-        /* @var EloquentModel */
-        $instance = $class->newInstance();
-        $showModelCommand = app()->make(\Illuminate\Database\Console\ShowModelCommand::class);
-        $showModelCommandReflection = new ReflectionClass($showModelCommand);
-
-        $res = $showModelCommandReflection->getMethod('getAttributes')->invoke(
-            $showModelCommand,
-            $instance
-        )->filter(fn ($attr) => $attr['hidden'] !== true);
-
-        return $res;
+        return $relations
+            ->map(function ($relation) {
+                $type = $this->mapRelationType($relation['type'], $relation['related']);
+                
+                return "    {$relation['name']}: {$type};";
+            })
+            ->join(PHP_EOL);
     }
 
-    public function transformProperties(
-        ReflectionClass $class,
-        MissingSymbolsCollection $missingSymbols
-    ): string {
-        return array_reduce(
-            $this->getPublicAttributes($class)->toArray(),
-            function (string $carry, $property) use ($missingSymbols, $class) {
-                $type = null;
-
-                if ($property['cast']) {
-                    $type = $this->inferTypeFromCast($property['cast']);
-                } elseif ($property['type']) {
-                    $type = $this->inferTypeFromDbFieldDescription($property['type']);
-                }
-                $transformedType = $this->typeToTypeScript(
-                    $type ?? new \phpDocumentor\Reflection\Types\Mixed_(),
-                    $missingSymbols,
-                    $class->getName(),
-                );
-
-                $isOptional = $property['nullable'] == true;
-
-                return $isOptional
-                    ? "{$carry}{$property['name']}?: {$transformedType};" . PHP_EOL
-                    : "{$carry}{$property['name']}: {$transformedType};" . PHP_EOL;
-            },
-            ''
-        );
-    }
-
-    public function inferTypeFromCast(string $castedAs): Type
+    protected function mapAttributeType(array $attribute): string
     {
-        if (Str::startsWith($castedAs, 'encrypted:')) {
-            $castedAs = Str::replaceFirst('encrypted:', '', $castedAs);
-        }
-        if (Str::contains($castedAs, ':')) {
-            $castedAs = explode(':', $castedAs)[0];
-        }
-
-        /* @var \phpDocumentor\Reflection\Type */
-        $phpdocumentorType = null;
-        switch ($castedAs) {
-            case 'datetime':
-            case 'immutable_datetime':
-            case 'date':
-            case 'immutable_date':
-            case 'hashed':
-            case 'Illuminate\Database\Eloquent\Casts\AsStringable':
-            case 'AsStringable':
-            case 'decimal':
-            case 'encrypted':
-                $phpdocumentorType = new \phpDocumentor\Reflection\Types\String_();
-
-                break;
-            case 'array':
-                $phpdocumentorType = new \phpDocumentor\Reflection\Types\Array_();
-
-                break;
-            case 'boolean':
-                $phpdocumentorType = new \phpDocumentor\Reflection\Types\Boolean();
-
-                break;
-            case 'double':
-            case 'float':
-                $phpdocumentorType = new \phpDocumentor\Reflection\Types\Float_();
-
-                break;
-            case 'int':
-            case 'integer':
-            case 'timestamp':
-                $phpdocumentorType = new \phpDocumentor\Reflection\Types\Integer();
-
-                break;
-            case 'object':
-                $phpdocumentorType = new \phpDocumentor\Reflection\Types\Object_();
-
-                break;
-            default:
-                // echo 'castedAS=' . $castedAs;
-                $phpdocumentorType = new \phpDocumentor\Reflection\Types\Object_(new Fqsen('\\' . $castedAs));
-
-                break;
-        }
-
-        return $phpdocumentorType;
+        return match($attribute['cast'] ?? $attribute['type']) {
+            'int', 'integer', 'timestamp' => 'number',
+            'real', 'float', 'double', 'decimal' => 'number',
+            'bool', 'boolean' => 'boolean',
+            'array', 'json' => 'any[]',
+            'object' => 'Record<string, any>',
+            'date', 'datetime' => 'string',
+            default => 'string',
+        };
     }
 
-    public function inferTypeFromDbFieldDescription($dbFieldDescription): ?Type
+    protected function mapRelationType(string $type, string $related): string
     {
-        preg_match('/^([^ \(]+)/', $dbFieldDescription, $matches);
-        $dbFieldType = $matches[1];
+        return match($type) {
+            'HasOne', 'BelongsTo' => $this->getTypeName($related),
+            'HasMany', 'BelongsToMany' => "{$this->getTypeName($related)}[]",
+            'MorphTo', 'MorphOne' => 'any',
+            'MorphMany' => 'any[]',
+            default => 'any',
+        };
+    }
 
-        if ($dbFieldType == 'string' || Str::endsWith($dbFieldType, 'text')) {
-            return new \phpDocumentor\Reflection\Types\String_();
-        } elseif (Str::endsWith($dbFieldType, 'int')) {
-            return new \phpDocumentor\Reflection\Types\Integer();
-        } else {
-            return null;
-        }
+    protected function getTypeName(string $class): string
+    {
+        return class_basename($class);
     }
 }
