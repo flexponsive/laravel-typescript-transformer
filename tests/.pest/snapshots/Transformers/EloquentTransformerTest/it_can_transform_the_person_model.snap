@@ -1,4 +1,4 @@
-interface Person {
+ {
     id: number;
     name: string;
     biography: string | null;

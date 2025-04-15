@@ -5,6 +5,7 @@ namespace Spatie\LaravelTypeScriptTransformer\Tests\Fixtures\Models;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/** @typescript */
 class Casting extends Pivot
 {
     protected $casts = [

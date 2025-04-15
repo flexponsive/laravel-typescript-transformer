@@ -1,4 +1,4 @@
-interface Award {
+ {
     id: number;
     name: string;
     category: string;

@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Spatie\LaravelTypeScriptTransformer\Tests\Fixtures\Enums\PersonType;
 
+/** @typescript */
 class Person extends Model
 {
     protected $casts = [

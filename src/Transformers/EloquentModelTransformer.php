@@ -47,7 +47,7 @@ class EloquentModelTransformer implements Transformer
         $properties = $this->transformProperties($details['attributes']);
         $relations = $this->transformRelations($details['relations']);
 
-        $transformed = "interface {$name} {" . PHP_EOL;
+        $transformed = " {" . PHP_EOL;
         $transformed .= $properties . PHP_EOL;
         $transformed .= $relations . PHP_EOL;
         $transformed .= "}";
