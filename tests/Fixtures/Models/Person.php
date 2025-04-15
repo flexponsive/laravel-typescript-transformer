@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Spatie\LaravelTypeScriptTransformer\Tests\Fixtures\Enums\PersonType;
 
 class Person extends Model
 {
@@ -14,6 +15,7 @@ class Person extends Model
         'awards_received' => 'array',
         'net_worth' => 'decimal:2',
         'date_of_birth' => 'date',
+        'type' => PersonType::class,
     ];
 
     public function movies(): BelongsToMany
