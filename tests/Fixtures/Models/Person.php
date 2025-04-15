@@ -23,6 +23,12 @@ class Person extends Model
     {
         return $this->belongsToMany(Movie::class, 'castings')
             ->using(Casting::class)
+            ->withPivot([
+                'character_name',
+                'billing_order',
+                'salary',
+                'contract_details',
+            ])
             ->as('casting'); // This is the name of the pivot model!
     }
 

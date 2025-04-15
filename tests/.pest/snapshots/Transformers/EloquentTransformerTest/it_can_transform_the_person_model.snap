@@ -9,7 +9,7 @@
     mentor_id: number | null;
     created_at: string | null;
     updated_at: string | null;
-    movies: Movie & { casting: Casting };
+    movies: Array<Movie & { casting: Casting }>;
     directedMovies: Movie[];
     mentor: Person | null;
     apprentices: Person[];

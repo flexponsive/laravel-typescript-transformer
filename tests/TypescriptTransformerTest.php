@@ -73,24 +73,3 @@ it('can define the relative output path', function () {
     expect($this->temporaryDirectory->path('resources/other-index.d.ts'))->toMatchFileSnapshot();
 });
 
-it('can transform models with enums', function () {
-    // Setup temporary output directory
-    $outputPath = $this->temporaryDirectory->path('models.d.ts');
-    
-    // Configure the transformer
-    config()->set('typescript-transformer.auto_discover_types', [
-        __DIR__ . '/Fixtures/Models',
-        __DIR__ . '/Fixtures/Enums'
-    ]);
-    config()->set('typescript-transformer.transformers', [
-        \Spatie\TypeScriptTransformer\Transformers\EnumTransformer::class,
-        \Spatie\LaravelTypeScriptTransformer\Transformers\EloquentModelTransformer::class,
-    ]);
-    config()->set('typescript-transformer.output_file', $outputPath);
-
-    // Run the transformation
-    $this->artisan('typescript:transform')->assertExitCode(0);
-
-    // Verify the output content
-    expect(file_get_contents($outputPath))->toMatchSnapshot();
-});

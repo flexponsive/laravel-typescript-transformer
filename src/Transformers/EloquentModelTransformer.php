@@ -43,7 +43,7 @@ class EloquentModelTransformer implements Transformer
 
         $missingSymbols = new MissingSymbolsCollection();
         $details = $this->inspector->inspect($class->getName());
-
+dd($details);
         $properties = $this->transformProperties($details['attributes']);
         $relations = $this->transformRelations($details['relations']);
 
@@ -67,6 +67,7 @@ class EloquentModelTransformer implements Transformer
 
     protected function transformProperties(Collection $attributes): string
     {
+
         return $attributes
             ->map(function ($attribute) {
                 $type = $this->mapAttributeType($attribute);
@@ -128,7 +129,7 @@ class EloquentModelTransformer implements Transformer
         return match($type) {
             'HasOne', 'BelongsTo' => $this->getTypeName($related),
             'BelongsToMany' => $pivot 
-                ? "{$this->getTypeName($related)} & { {$pivotAccessor}: {$this->getTypeName($pivot)} }" 
+                ? "Array<{$this->getTypeName($related)} & { {$pivotAccessor}: {$this->getTypeName($pivot)} }>" 
                 : "{$this->getTypeName($related)}[]",
             'HasMany' => "{$this->getTypeName($related)}[]",
             'MorphTo', 'MorphOne' => 'any',
