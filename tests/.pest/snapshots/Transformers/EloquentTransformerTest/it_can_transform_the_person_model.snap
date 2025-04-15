@@ -1,0 +1,17 @@
+interface Person {
+    id: number;
+    name: string;
+    biography?: string;
+    type: string;
+    awards_received?: any[];
+    net_worth?: string;
+    date_of_birth?: string;
+    mentor_id?: number;
+    created_at?: string;
+    updated_at?: string;
+    movies: Movie[];
+    directedMovies: Movie[];
+    mentor: Person;
+    apprentices: Person[];
+    awards: any[];
+}
