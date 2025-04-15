@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Schema;
 use Spatie\LaravelTypeScriptTransformer\Tests\Fixtures\Models\Award;
 use Spatie\LaravelTypeScriptTransformer\Tests\Fixtures\Models\Casting;
@@ -15,7 +16,7 @@ uses(RefreshDatabase::class);
 
 beforeEach(function () {
     $this->loadMigrationsFrom(__DIR__ . '/../Fixtures/database/migrations');
-    
+    $this->temporaryDirectory = (new TemporaryDirectory())->create();
     $this->transformer = new EloquentModelTransformer(
         resolve(TypeScriptTransformerConfig::class)
     );
@@ -66,14 +67,14 @@ it('can transform pivot models', function () {
         new ReflectionClass(Casting::class),
         'Casting'
     );
-dd($type->transformed);
+
     expect($type->transformed)->toMatchSnapshot();
 });
 
 it('can transform end-to-end', function () {
     // Setup temporary output directory
-    $temporaryDirectory = (new TemporaryDirectory())->create();
-    $outputPath = $temporaryDirectory->path('models.d.ts');
+    
+    $outputPath = $this->temporaryDirectory->path('models.d.ts');
     
     // Configure the transformer
     config()->set('typescript-transformer.auto_discover_types', [
@@ -95,6 +96,9 @@ it('can transform end-to-end', function () {
 });
 
 it("can serialize to json", function() {
+    // set the test time to 1st january 2025
+    Carbon\Carbon::setTestNow('2025-01-01 00:00:00');
+
     // Let's run the sample data seeder
     $this->artisan("db:seed", [
         '--class' => '\Spatie\LaravelTypeScriptTransformer\Tests\Fixtures\MovieTestDataSeeder',
@@ -117,4 +121,5 @@ it("can serialize to json", function() {
     ])->get();
     $peopleJson = $people->toJson(JSON_PRETTY_PRINT);
     expect($peopleJson)->toMatchSnapshot();
+
 });

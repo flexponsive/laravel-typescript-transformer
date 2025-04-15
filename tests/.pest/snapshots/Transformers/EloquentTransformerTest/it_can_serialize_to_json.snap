@@ -8,8 +8,8 @@
         "net_worth": "75000000.00",
         "date_of_birth": "1965-03-15T00:00:00.000000Z",
         "mentor_id": null,
-        "created_at": "2025-04-15T20:03:18.000000Z",
-        "updated_at": "2025-04-15T20:03:18.000000Z",
+        "created_at": "2025-01-01T00:00:00.000000Z",
+        "updated_at": "2025-01-01T00:00:00.000000Z",
         "movies": [],
         "directed_movies": [
             {
@@ -24,8 +24,8 @@
                 "premiered_at": "2023-05-15T19:00:00.000000Z",
                 "is_released": true,
                 "director_id": 1,
-                "created_at": "2025-04-15T20:03:18.000000Z",
-                "updated_at": "2025-04-15T20:03:18.000000Z",
+                "created_at": "2025-01-01T00:00:00.000000Z",
+                "updated_at": "2025-01-01T00:00:00.000000Z",
                 "awards": [
                     {
                         "id": 1,
@@ -34,8 +34,8 @@
                         "year": 2023,
                         "awardable_type": "Spatie\\LaravelTypeScriptTransformer\\Tests\\Fixtures\\Models\\Movie",
                         "awardable_id": 1,
-                        "created_at": "2025-04-15T20:03:18.000000Z",
-                        "updated_at": "2025-04-15T20:03:18.000000Z"
+                        "created_at": "2025-01-01T00:00:00.000000Z",
+                        "updated_at": "2025-01-01T00:00:00.000000Z"
                     }
                 ],
                 "cast": [
@@ -48,8 +48,8 @@
                         "net_worth": "25000000.00",
                         "date_of_birth": "1988-11-20T00:00:00.000000Z",
                         "mentor_id": 1,
-                        "created_at": "2025-04-15T20:03:18.000000Z",
-                        "updated_at": "2025-04-15T20:03:18.000000Z",
+                        "created_at": "2025-01-01T00:00:00.000000Z",
+                        "updated_at": "2025-01-01T00:00:00.000000Z",
                         "pivot": {
                             "movie_id": 1,
                             "person_id": 2
@@ -65,8 +65,8 @@
                         "net_worth": "8000000.00",
                         "date_of_birth": "1995-07-01T00:00:00.000000Z",
                         "mentor_id": null,
-                        "created_at": "2025-04-15T20:03:18.000000Z",
-                        "updated_at": "2025-04-15T20:03:18.000000Z",
+                        "created_at": "2025-01-01T00:00:00.000000Z",
+                        "updated_at": "2025-01-01T00:00:00.000000Z",
                         "pivot": {
                             "movie_id": 1,
                             "person_id": 3
@@ -84,8 +84,8 @@
                 "year": 2024,
                 "awardable_type": "Spatie\\LaravelTypeScriptTransformer\\Tests\\Fixtures\\Models\\Person",
                 "awardable_id": 1,
-                "created_at": "2025-04-15T20:03:18.000000Z",
-                "updated_at": "2025-04-15T20:03:18.000000Z",
+                "created_at": "2025-01-01T00:00:00.000000Z",
+                "updated_at": "2025-01-01T00:00:00.000000Z",
                 "awardable": {
                     "id": 1,
                     "name": "Eleanor Vance",
@@ -95,8 +95,8 @@
                     "net_worth": "75000000.00",
                     "date_of_birth": "1965-03-15T00:00:00.000000Z",
                     "mentor_id": null,
-                    "created_at": "2025-04-15T20:03:18.000000Z",
-                    "updated_at": "2025-04-15T20:03:18.000000Z"
+                    "created_at": "2025-01-01T00:00:00.000000Z",
+                    "updated_at": "2025-01-01T00:00:00.000000Z"
                 }
             }
         ],
@@ -111,8 +111,8 @@
                 "net_worth": "25000000.00",
                 "date_of_birth": "1988-11-20T00:00:00.000000Z",
                 "mentor_id": 1,
-                "created_at": "2025-04-15T20:03:18.000000Z",
-                "updated_at": "2025-04-15T20:03:18.000000Z",
+                "created_at": "2025-01-01T00:00:00.000000Z",
+                "updated_at": "2025-01-01T00:00:00.000000Z",
                 "directed_movies": [],
                 "awards": []
             }
@@ -127,8 +127,8 @@
         "net_worth": "25000000.00",
         "date_of_birth": "1988-11-20T00:00:00.000000Z",
         "mentor_id": 1,
-        "created_at": "2025-04-15T20:03:18.000000Z",
-        "updated_at": "2025-04-15T20:03:18.000000Z",
+        "created_at": "2025-01-01T00:00:00.000000Z",
+        "updated_at": "2025-01-01T00:00:00.000000Z",
         "movies": [
             {
                 "id": 1,
@@ -142,8 +142,8 @@
                 "premiered_at": "2023-05-15T19:00:00.000000Z",
                 "is_released": true,
                 "director_id": 1,
-                "created_at": "2025-04-15T20:03:18.000000Z",
-                "updated_at": "2025-04-15T20:03:18.000000Z",
+                "created_at": "2025-01-01T00:00:00.000000Z",
+                "updated_at": "2025-01-01T00:00:00.000000Z",
                 "casting": {
                     "person_id": 2,
                     "movie_id": 1,
@@ -160,8 +160,8 @@
                         "year": 2023,
                         "awardable_type": "Spatie\\LaravelTypeScriptTransformer\\Tests\\Fixtures\\Models\\Movie",
                         "awardable_id": 1,
-                        "created_at": "2025-04-15T20:03:18.000000Z",
-                        "updated_at": "2025-04-15T20:03:18.000000Z"
+                        "created_at": "2025-01-01T00:00:00.000000Z",
+                        "updated_at": "2025-01-01T00:00:00.000000Z"
                     }
                 ],
                 "director": {
@@ -173,8 +173,8 @@
                     "net_worth": "75000000.00",
                     "date_of_birth": "1965-03-15T00:00:00.000000Z",
                     "mentor_id": null,
-                    "created_at": "2025-04-15T20:03:18.000000Z",
-                    "updated_at": "2025-04-15T20:03:18.000000Z"
+                    "created_at": "2025-01-01T00:00:00.000000Z",
+                    "updated_at": "2025-01-01T00:00:00.000000Z"
                 },
                 "cast": [
                     {
@@ -186,8 +186,8 @@
                         "net_worth": "25000000.00",
                         "date_of_birth": "1988-11-20T00:00:00.000000Z",
                         "mentor_id": 1,
-                        "created_at": "2025-04-15T20:03:18.000000Z",
-                        "updated_at": "2025-04-15T20:03:18.000000Z",
+                        "created_at": "2025-01-01T00:00:00.000000Z",
+                        "updated_at": "2025-01-01T00:00:00.000000Z",
                         "pivot": {
                             "movie_id": 1,
                             "person_id": 2
@@ -204,8 +204,8 @@
                         "net_worth": "8000000.00",
                         "date_of_birth": "1995-07-01T00:00:00.000000Z",
                         "mentor_id": null,
-                        "created_at": "2025-04-15T20:03:18.000000Z",
-                        "updated_at": "2025-04-15T20:03:18.000000Z",
+                        "created_at": "2025-01-01T00:00:00.000000Z",
+                        "updated_at": "2025-01-01T00:00:00.000000Z",
                         "pivot": {
                             "movie_id": 1,
                             "person_id": 3
@@ -224,8 +224,8 @@
                                 "premiered_at": null,
                                 "is_released": false,
                                 "director_id": 3,
-                                "created_at": "2025-04-15T20:03:18.000000Z",
-                                "updated_at": "2025-04-15T20:03:18.000000Z"
+                                "created_at": "2025-01-01T00:00:00.000000Z",
+                                "updated_at": "2025-01-01T00:00:00.000000Z"
                             }
                         ]
                     }
@@ -243,8 +243,8 @@
                 "premiered_at": "2024-01-10T20:00:00.000000Z",
                 "is_released": true,
                 "director_id": 5,
-                "created_at": "2025-04-15T20:03:18.000000Z",
-                "updated_at": "2025-04-15T20:03:18.000000Z",
+                "created_at": "2025-01-01T00:00:00.000000Z",
+                "updated_at": "2025-01-01T00:00:00.000000Z",
                 "casting": {
                     "person_id": 2,
                     "movie_id": 2,
@@ -266,8 +266,8 @@
                     "net_worth": null,
                     "date_of_birth": "1972-09-05T00:00:00.000000Z",
                     "mentor_id": null,
-                    "created_at": "2025-04-15T20:03:18.000000Z",
-                    "updated_at": "2025-04-15T20:03:18.000000Z"
+                    "created_at": "2025-01-01T00:00:00.000000Z",
+                    "updated_at": "2025-01-01T00:00:00.000000Z"
                 },
                 "cast": [
                     {
@@ -279,8 +279,8 @@
                         "net_worth": "25000000.00",
                         "date_of_birth": "1988-11-20T00:00:00.000000Z",
                         "mentor_id": 1,
-                        "created_at": "2025-04-15T20:03:18.000000Z",
-                        "updated_at": "2025-04-15T20:03:18.000000Z",
+                        "created_at": "2025-01-01T00:00:00.000000Z",
+                        "updated_at": "2025-01-01T00:00:00.000000Z",
                         "pivot": {
                             "movie_id": 2,
                             "person_id": 2
@@ -297,8 +297,8 @@
                         "net_worth": "35000000.00",
                         "date_of_birth": "1985-01-10T00:00:00.000000Z",
                         "mentor_id": null,
-                        "created_at": "2025-04-15T20:03:18.000000Z",
-                        "updated_at": "2025-04-15T20:03:18.000000Z",
+                        "created_at": "2025-01-01T00:00:00.000000Z",
+                        "updated_at": "2025-01-01T00:00:00.000000Z",
                         "pivot": {
                             "movie_id": 2,
                             "person_id": 4
@@ -320,8 +320,8 @@
                 "premiered_at": null,
                 "is_released": false,
                 "director_id": 3,
-                "created_at": "2025-04-15T20:03:18.000000Z",
-                "updated_at": "2025-04-15T20:03:18.000000Z",
+                "created_at": "2025-01-01T00:00:00.000000Z",
+                "updated_at": "2025-01-01T00:00:00.000000Z",
                 "casting": {
                     "person_id": 2,
                     "movie_id": 3,
@@ -342,8 +342,8 @@
                     "net_worth": "8000000.00",
                     "date_of_birth": "1995-07-01T00:00:00.000000Z",
                     "mentor_id": null,
-                    "created_at": "2025-04-15T20:03:18.000000Z",
-                    "updated_at": "2025-04-15T20:03:18.000000Z"
+                    "created_at": "2025-01-01T00:00:00.000000Z",
+                    "updated_at": "2025-01-01T00:00:00.000000Z"
                 },
                 "cast": [
                     {
@@ -355,8 +355,8 @@
                         "net_worth": "35000000.00",
                         "date_of_birth": "1985-01-10T00:00:00.000000Z",
                         "mentor_id": null,
-                        "created_at": "2025-04-15T20:03:18.000000Z",
-                        "updated_at": "2025-04-15T20:03:18.000000Z",
+                        "created_at": "2025-01-01T00:00:00.000000Z",
+                        "updated_at": "2025-01-01T00:00:00.000000Z",
                         "pivot": {
                             "movie_id": 3,
                             "person_id": 4
@@ -373,8 +373,8 @@
                         "net_worth": "25000000.00",
                         "date_of_birth": "1988-11-20T00:00:00.000000Z",
                         "mentor_id": 1,
-                        "created_at": "2025-04-15T20:03:18.000000Z",
-                        "updated_at": "2025-04-15T20:03:18.000000Z",
+                        "created_at": "2025-01-01T00:00:00.000000Z",
+                        "updated_at": "2025-01-01T00:00:00.000000Z",
                         "pivot": {
                             "movie_id": 3,
                             "person_id": 2
@@ -396,8 +396,8 @@
             "net_worth": "75000000.00",
             "date_of_birth": "1965-03-15T00:00:00.000000Z",
             "mentor_id": null,
-            "created_at": "2025-04-15T20:03:18.000000Z",
-            "updated_at": "2025-04-15T20:03:18.000000Z",
+            "created_at": "2025-01-01T00:00:00.000000Z",
+            "updated_at": "2025-01-01T00:00:00.000000Z",
             "directed_movies": [
                 {
                     "id": 1,
@@ -411,8 +411,8 @@
                     "premiered_at": "2023-05-15T19:00:00.000000Z",
                     "is_released": true,
                     "director_id": 1,
-                    "created_at": "2025-04-15T20:03:18.000000Z",
-                    "updated_at": "2025-04-15T20:03:18.000000Z"
+                    "created_at": "2025-01-01T00:00:00.000000Z",
+                    "updated_at": "2025-01-01T00:00:00.000000Z"
                 }
             ],
             "awards": [
@@ -423,8 +423,8 @@
                     "year": 2024,
                     "awardable_type": "Spatie\\LaravelTypeScriptTransformer\\Tests\\Fixtures\\Models\\Person",
                     "awardable_id": 1,
-                    "created_at": "2025-04-15T20:03:18.000000Z",
-                    "updated_at": "2025-04-15T20:03:18.000000Z"
+                    "created_at": "2025-01-01T00:00:00.000000Z",
+                    "updated_at": "2025-01-01T00:00:00.000000Z"
                 }
             ]
         },
@@ -439,8 +439,8 @@
         "net_worth": "8000000.00",
         "date_of_birth": "1995-07-01T00:00:00.000000Z",
         "mentor_id": null,
-        "created_at": "2025-04-15T20:03:18.000000Z",
-        "updated_at": "2025-04-15T20:03:18.000000Z",
+        "created_at": "2025-01-01T00:00:00.000000Z",
+        "updated_at": "2025-01-01T00:00:00.000000Z",
         "movies": [
             {
                 "id": 1,
@@ -454,8 +454,8 @@
                 "premiered_at": "2023-05-15T19:00:00.000000Z",
                 "is_released": true,
                 "director_id": 1,
-                "created_at": "2025-04-15T20:03:18.000000Z",
-                "updated_at": "2025-04-15T20:03:18.000000Z",
+                "created_at": "2025-01-01T00:00:00.000000Z",
+                "updated_at": "2025-01-01T00:00:00.000000Z",
                 "casting": {
                     "person_id": 3,
                     "movie_id": 1,
@@ -472,8 +472,8 @@
                         "year": 2023,
                         "awardable_type": "Spatie\\LaravelTypeScriptTransformer\\Tests\\Fixtures\\Models\\Movie",
                         "awardable_id": 1,
-                        "created_at": "2025-04-15T20:03:18.000000Z",
-                        "updated_at": "2025-04-15T20:03:18.000000Z"
+                        "created_at": "2025-01-01T00:00:00.000000Z",
+                        "updated_at": "2025-01-01T00:00:00.000000Z"
                     }
                 ],
                 "director": {
@@ -485,8 +485,8 @@
                     "net_worth": "75000000.00",
                     "date_of_birth": "1965-03-15T00:00:00.000000Z",
                     "mentor_id": null,
-                    "created_at": "2025-04-15T20:03:18.000000Z",
-                    "updated_at": "2025-04-15T20:03:18.000000Z"
+                    "created_at": "2025-01-01T00:00:00.000000Z",
+                    "updated_at": "2025-01-01T00:00:00.000000Z"
                 },
                 "cast": [
                     {
@@ -498,8 +498,8 @@
                         "net_worth": "25000000.00",
                         "date_of_birth": "1988-11-20T00:00:00.000000Z",
                         "mentor_id": 1,
-                        "created_at": "2025-04-15T20:03:18.000000Z",
-                        "updated_at": "2025-04-15T20:03:18.000000Z",
+                        "created_at": "2025-01-01T00:00:00.000000Z",
+                        "updated_at": "2025-01-01T00:00:00.000000Z",
                         "pivot": {
                             "movie_id": 1,
                             "person_id": 2
@@ -516,8 +516,8 @@
                         "net_worth": "8000000.00",
                         "date_of_birth": "1995-07-01T00:00:00.000000Z",
                         "mentor_id": null,
-                        "created_at": "2025-04-15T20:03:18.000000Z",
-                        "updated_at": "2025-04-15T20:03:18.000000Z",
+                        "created_at": "2025-01-01T00:00:00.000000Z",
+                        "updated_at": "2025-01-01T00:00:00.000000Z",
                         "pivot": {
                             "movie_id": 1,
                             "person_id": 3
@@ -536,8 +536,8 @@
                                 "premiered_at": null,
                                 "is_released": false,
                                 "director_id": 3,
-                                "created_at": "2025-04-15T20:03:18.000000Z",
-                                "updated_at": "2025-04-15T20:03:18.000000Z"
+                                "created_at": "2025-01-01T00:00:00.000000Z",
+                                "updated_at": "2025-01-01T00:00:00.000000Z"
                             }
                         ]
                     }
@@ -557,8 +557,8 @@
                 "premiered_at": null,
                 "is_released": false,
                 "director_id": 3,
-                "created_at": "2025-04-15T20:03:18.000000Z",
-                "updated_at": "2025-04-15T20:03:18.000000Z",
+                "created_at": "2025-01-01T00:00:00.000000Z",
+                "updated_at": "2025-01-01T00:00:00.000000Z",
                 "awards": [],
                 "cast": [
                     {
@@ -570,8 +570,8 @@
                         "net_worth": "35000000.00",
                         "date_of_birth": "1985-01-10T00:00:00.000000Z",
                         "mentor_id": null,
-                        "created_at": "2025-04-15T20:03:18.000000Z",
-                        "updated_at": "2025-04-15T20:03:18.000000Z",
+                        "created_at": "2025-01-01T00:00:00.000000Z",
+                        "updated_at": "2025-01-01T00:00:00.000000Z",
                         "pivot": {
                             "movie_id": 3,
                             "person_id": 4
@@ -587,8 +587,8 @@
                         "net_worth": "25000000.00",
                         "date_of_birth": "1988-11-20T00:00:00.000000Z",
                         "mentor_id": 1,
-                        "created_at": "2025-04-15T20:03:18.000000Z",
-                        "updated_at": "2025-04-15T20:03:18.000000Z",
+                        "created_at": "2025-01-01T00:00:00.000000Z",
+                        "updated_at": "2025-01-01T00:00:00.000000Z",
                         "pivot": {
                             "movie_id": 3,
                             "person_id": 2
@@ -611,8 +611,8 @@
         "net_worth": "35000000.00",
         "date_of_birth": "1985-01-10T00:00:00.000000Z",
         "mentor_id": null,
-        "created_at": "2025-04-15T20:03:18.000000Z",
-        "updated_at": "2025-04-15T20:03:18.000000Z",
+        "created_at": "2025-01-01T00:00:00.000000Z",
+        "updated_at": "2025-01-01T00:00:00.000000Z",
         "movies": [
             {
                 "id": 2,
@@ -626,8 +626,8 @@
                 "premiered_at": "2024-01-10T20:00:00.000000Z",
                 "is_released": true,
                 "director_id": 5,
-                "created_at": "2025-04-15T20:03:18.000000Z",
-                "updated_at": "2025-04-15T20:03:18.000000Z",
+                "created_at": "2025-01-01T00:00:00.000000Z",
+                "updated_at": "2025-01-01T00:00:00.000000Z",
                 "casting": {
                     "person_id": 4,
                     "movie_id": 2,
@@ -648,8 +648,8 @@
                     "net_worth": null,
                     "date_of_birth": "1972-09-05T00:00:00.000000Z",
                     "mentor_id": null,
-                    "created_at": "2025-04-15T20:03:18.000000Z",
-                    "updated_at": "2025-04-15T20:03:18.000000Z"
+                    "created_at": "2025-01-01T00:00:00.000000Z",
+                    "updated_at": "2025-01-01T00:00:00.000000Z"
                 },
                 "cast": [
                     {
@@ -661,8 +661,8 @@
                         "net_worth": "25000000.00",
                         "date_of_birth": "1988-11-20T00:00:00.000000Z",
                         "mentor_id": 1,
-                        "created_at": "2025-04-15T20:03:18.000000Z",
-                        "updated_at": "2025-04-15T20:03:18.000000Z",
+                        "created_at": "2025-01-01T00:00:00.000000Z",
+                        "updated_at": "2025-01-01T00:00:00.000000Z",
                         "pivot": {
                             "movie_id": 2,
                             "person_id": 2
@@ -679,8 +679,8 @@
                         "net_worth": "35000000.00",
                         "date_of_birth": "1985-01-10T00:00:00.000000Z",
                         "mentor_id": null,
-                        "created_at": "2025-04-15T20:03:18.000000Z",
-                        "updated_at": "2025-04-15T20:03:18.000000Z",
+                        "created_at": "2025-01-01T00:00:00.000000Z",
+                        "updated_at": "2025-01-01T00:00:00.000000Z",
                         "pivot": {
                             "movie_id": 2,
                             "person_id": 4
@@ -702,8 +702,8 @@
                 "premiered_at": null,
                 "is_released": false,
                 "director_id": 3,
-                "created_at": "2025-04-15T20:03:18.000000Z",
-                "updated_at": "2025-04-15T20:03:18.000000Z",
+                "created_at": "2025-01-01T00:00:00.000000Z",
+                "updated_at": "2025-01-01T00:00:00.000000Z",
                 "casting": {
                     "person_id": 4,
                     "movie_id": 3,
@@ -722,8 +722,8 @@
                     "net_worth": "8000000.00",
                     "date_of_birth": "1995-07-01T00:00:00.000000Z",
                     "mentor_id": null,
-                    "created_at": "2025-04-15T20:03:18.000000Z",
-                    "updated_at": "2025-04-15T20:03:18.000000Z"
+                    "created_at": "2025-01-01T00:00:00.000000Z",
+                    "updated_at": "2025-01-01T00:00:00.000000Z"
                 },
                 "cast": [
                     {
@@ -735,8 +735,8 @@
                         "net_worth": "35000000.00",
                         "date_of_birth": "1985-01-10T00:00:00.000000Z",
                         "mentor_id": null,
-                        "created_at": "2025-04-15T20:03:18.000000Z",
-                        "updated_at": "2025-04-15T20:03:18.000000Z",
+                        "created_at": "2025-01-01T00:00:00.000000Z",
+                        "updated_at": "2025-01-01T00:00:00.000000Z",
                         "pivot": {
                             "movie_id": 3,
                             "person_id": 4
@@ -753,8 +753,8 @@
                         "net_worth": "25000000.00",
                         "date_of_birth": "1988-11-20T00:00:00.000000Z",
                         "mentor_id": 1,
-                        "created_at": "2025-04-15T20:03:18.000000Z",
-                        "updated_at": "2025-04-15T20:03:18.000000Z",
+                        "created_at": "2025-01-01T00:00:00.000000Z",
+                        "updated_at": "2025-01-01T00:00:00.000000Z",
                         "pivot": {
                             "movie_id": 3,
                             "person_id": 2
@@ -779,8 +779,8 @@
         "net_worth": null,
         "date_of_birth": "1972-09-05T00:00:00.000000Z",
         "mentor_id": null,
-        "created_at": "2025-04-15T20:03:18.000000Z",
-        "updated_at": "2025-04-15T20:03:18.000000Z",
+        "created_at": "2025-01-01T00:00:00.000000Z",
+        "updated_at": "2025-01-01T00:00:00.000000Z",
         "movies": [],
         "directed_movies": [
             {
@@ -795,8 +795,8 @@
                 "premiered_at": "2024-01-10T20:00:00.000000Z",
                 "is_released": true,
                 "director_id": 5,
-                "created_at": "2025-04-15T20:03:18.000000Z",
-                "updated_at": "2025-04-15T20:03:18.000000Z",
+                "created_at": "2025-01-01T00:00:00.000000Z",
+                "updated_at": "2025-01-01T00:00:00.000000Z",
                 "awards": [],
                 "cast": [
                     {
@@ -808,8 +808,8 @@
                         "net_worth": "25000000.00",
                         "date_of_birth": "1988-11-20T00:00:00.000000Z",
                         "mentor_id": 1,
-                        "created_at": "2025-04-15T20:03:18.000000Z",
-                        "updated_at": "2025-04-15T20:03:18.000000Z",
+                        "created_at": "2025-01-01T00:00:00.000000Z",
+                        "updated_at": "2025-01-01T00:00:00.000000Z",
                         "pivot": {
                             "movie_id": 2,
                             "person_id": 2
@@ -825,8 +825,8 @@
                         "net_worth": "35000000.00",
                         "date_of_birth": "1985-01-10T00:00:00.000000Z",
                         "mentor_id": null,
-                        "created_at": "2025-04-15T20:03:18.000000Z",
-                        "updated_at": "2025-04-15T20:03:18.000000Z",
+                        "created_at": "2025-01-01T00:00:00.000000Z",
+                        "updated_at": "2025-01-01T00:00:00.000000Z",
                         "pivot": {
                             "movie_id": 2,
                             "person_id": 4

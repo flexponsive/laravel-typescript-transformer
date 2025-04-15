@@ -43,7 +43,7 @@ class EloquentModelTransformer implements Transformer
 
         $missingSymbols = new MissingSymbolsCollection();
         $details = $this->inspector->inspect($class->getName());
-dd($details);
+
         $properties = $this->transformProperties($details['attributes']);
         $relations = $this->transformRelations($details['relations']);
 

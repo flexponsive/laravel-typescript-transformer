@@ -14,7 +14,15 @@ export type Award =  {
     awardable: any;
 };
 export type Casting =  {
-
+    id: number;
+    movie_id: number;
+    person_id: number;
+    character_name: string;
+    billing_order: number | null;
+    salary: string | null;
+    contract_details: any[] | null;
+    created_at: string | null;
+    updated_at: string | null;
     movie: Movie;
     person: Person;
 };
