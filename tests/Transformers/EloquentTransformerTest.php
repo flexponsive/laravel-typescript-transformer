@@ -2,7 +2,6 @@
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Schema;
-use ReflectionClass;
 use Spatie\LaravelTypeScriptTransformer\Tests\Fixtures\Models\Award;
 use Spatie\LaravelTypeScriptTransformer\Tests\Fixtures\Models\Movie;
 use Spatie\LaravelTypeScriptTransformer\Tests\Fixtures\Models\Person;

@@ -9,9 +9,9 @@ interface Person {
     mentor_id?: number;
     created_at?: string;
     updated_at?: string;
-    movies: Movie[];
+    movies: Movie & { casting: Casting };
     directedMovies: Movie[];
-    mentor: Person;
+    mentor?: Person;
     apprentices: Person[];
     awards: any[];
 }

@@ -5,6 +5,7 @@ namespace Spatie\LaravelTypeScriptTransformer\Transformers;
 use Illuminate\Database\Eloquent\Model as EloquentModel;
 use Illuminate\Database\Eloquent\ModelInspector;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 use phpDocumentor\Reflection\Type;
 use ReflectionClass;
 use Spatie\TypeScriptTransformer\Structures\MissingSymbolsCollection;
@@ -19,6 +20,7 @@ class EloquentModelTransformer implements Transformer
 
     protected TypeScriptTransformerConfig $config;
     protected ModelInspector $inspector;
+    protected string $currentClass;
 
     public function __construct(TypeScriptTransformerConfig $config)
     {
@@ -36,6 +38,8 @@ class EloquentModelTransformer implements Transformer
         if (!$this->canTransform($class)) {
             return null;
         }
+
+        $this->currentClass = $class->getName();
 
         $missingSymbols = new MissingSymbolsCollection();
         $details = $this->inspector->inspect($class->getName());
@@ -77,9 +81,30 @@ class EloquentModelTransformer implements Transformer
     {
         return $relations
             ->map(function ($relation) {
-                $type = $this->mapRelationType($relation['type'], $relation['related']);
+                $pivot = null;
+                $pivotAccessor = 'pivot';
                 
-                return "    {$relation['name']}: {$type};";
+                // Get pivot model for BelongsToMany relationships
+                if ($relation['type'] === 'BelongsToMany') {
+                    $relationInstance = (new $this->currentClass)->{$relation['name']}();
+                    $pivot = $relationInstance->getPivotClass();
+                    if (method_exists($relationInstance, 'getPivotAccessor')) {
+                        $pivotAccessor = $relationInstance->getPivotAccessor();
+                    }
+                }
+                
+                $type = $this->mapRelationType($relation['type'], $relation['related'], $pivot, $pivotAccessor);
+                
+                // Get foreign key nullability for BelongsTo relationships
+                $nullable = false;
+                if ($relation['type'] === 'BelongsTo') {
+                    $foreignKey = Str::snake($relation['name'] . '_id');
+                    $attributes = $this->inspector->inspect($this->currentClass)['attributes'];
+                    $foreignKeyAttribute = $attributes->firstWhere('name', $foreignKey);
+                    $nullable = $foreignKeyAttribute ? $foreignKeyAttribute['nullable'] : false;
+                }
+                
+                return "    {$relation['name']}" . ($nullable ? '?' : '') . ": {$type};";
             })
             ->join(PHP_EOL);
     }
@@ -97,11 +122,14 @@ class EloquentModelTransformer implements Transformer
         };
     }
 
-    protected function mapRelationType(string $type, string $related): string
+    protected function mapRelationType(string $type, string $related, ?string $pivot = null, string $pivotAccessor = 'pivot'): string
     {
         return match($type) {
             'HasOne', 'BelongsTo' => $this->getTypeName($related),
-            'HasMany', 'BelongsToMany' => "{$this->getTypeName($related)}[]",
+            'BelongsToMany' => $pivot 
+                ? "{$this->getTypeName($related)} & { {$pivotAccessor}: {$this->getTypeName($pivot)} }" 
+                : "{$this->getTypeName($related)}[]",
+            'HasMany' => "{$this->getTypeName($related)}[]",
             'MorphTo', 'MorphOne' => 'any',
             'MorphMany' => 'any[]',
             default => 'any',

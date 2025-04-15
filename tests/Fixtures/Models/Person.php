@@ -19,7 +19,8 @@ class Person extends Model
     public function movies(): BelongsToMany
     {
         return $this->belongsToMany(Movie::class, 'castings')
-            ->using(Casting::class);
+            ->using(Casting::class)
+            ->as('casting'); // This is the name of the pivot model!
     }
 
     public function directedMovies(): HasMany
