@@ -1,0 +1,17 @@
+ {
+    id: number;
+    name: string;
+    biography: string | null;
+    type: string;
+    awards_received: any | null;
+    net_worth: string | null;
+    date_of_birth: string | null;
+    mentor_id: number | null;
+    created_at: string | null;
+    updated_at: string | null;
+    movies? : Array<Movie & { casting: Casting }>;
+    directed_movies? : Movie[];
+    mentor? : Person | null;
+    apprentices? : Person[];
+    awards? : any[];
+}
