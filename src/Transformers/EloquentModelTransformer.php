@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\ModelInspector;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
-use phpDocumentor\Reflection\Type;
 use ReflectionClass;
 use Spatie\TypeScriptTransformer\Structures\MissingSymbolsCollection;
 use Spatie\TypeScriptTransformer\Structures\TransformedType;
@@ -36,7 +35,7 @@ class EloquentModelTransformer implements Transformer
 
     public function transform(ReflectionClass $class, string $name): ?TransformedType
     {
-        if (!$this->canTransform($class)) {
+        if (! $this->canTransform($class)) {
             return null;
         }
 
@@ -118,6 +117,7 @@ class EloquentModelTransformer implements Transformer
                 $relationSnakeName = Str::snake($relation['name']);
                 
                 $type = $nullable ? "{$type} | null" : $type;
+
                 return "    {$relationSnakeName}? : {$type};";
             })
             ->join(PHP_EOL);
@@ -140,8 +140,8 @@ class EloquentModelTransformer implements Transformer
     {
         return match($type) {
             'HasOne', 'BelongsTo' => $this->getTypeName($related),
-            'BelongsToMany' => $pivot 
-                ? "Array<{$this->getTypeName($related)} & { {$pivotAccessor}: {$this->getTypeName($pivot)} }>" 
+            'BelongsToMany' => $pivot
+                ? "Array<{$this->getTypeName($related)} & { {$pivotAccessor}: {$this->getTypeName($pivot)} }>"
                 : "{$this->getTypeName($related)}[]",
             'HasMany' => "{$this->getTypeName($related)}[]",
             'MorphTo', 'MorphOne' => 'any',

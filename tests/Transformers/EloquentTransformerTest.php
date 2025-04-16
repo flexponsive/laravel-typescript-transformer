@@ -1,8 +1,6 @@
 <?php
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Schema;
 use Spatie\LaravelTypeScriptTransformer\Tests\Fixtures\Models\Award;
 use Spatie\LaravelTypeScriptTransformer\Tests\Fixtures\Models\Casting;
 use Spatie\LaravelTypeScriptTransformer\Tests\Fixtures\Models\Movie;
@@ -10,7 +8,6 @@ use Spatie\LaravelTypeScriptTransformer\Tests\Fixtures\Models\Person;
 use Spatie\LaravelTypeScriptTransformer\Transformers\EloquentModelTransformer;
 use Spatie\TemporaryDirectory\TemporaryDirectory;
 use Spatie\TypeScriptTransformer\TypeScriptTransformerConfig;
-
 
 uses(RefreshDatabase::class);
 
@@ -66,7 +63,7 @@ it('can transform end-to-end', function () {
     // Configure the transformer
     config()->set('typescript-transformer.auto_discover_types', [
         __DIR__ . '/../Fixtures/Models',
-        __DIR__ . '/../Fixtures/Enums'
+        __DIR__ . '/../Fixtures/Enums',
     ]);
     config()->set('typescript-transformer.transformers', [
         \Spatie\TypeScriptTransformer\Transformers\EnumTransformer::class,
@@ -82,12 +79,12 @@ it('can transform end-to-end', function () {
 
 });
 
-it("generates typescript types that the model conforms to", function() {
+it("generates typescript types that the model conforms to", function () {
     // generate the typescript types for our eloquent models
     $outputPath = $this->temporaryDirectory->path('models.d.ts');
     config()->set('typescript-transformer.auto_discover_types', [
         __DIR__ . '/../Fixtures/Models',
-        __DIR__ . '/../Fixtures/Enums'
+        __DIR__ . '/../Fixtures/Enums',
     ]);
     config()->set('typescript-transformer.transformers', [
         \Spatie\TypeScriptTransformer\Transformers\EnumTransformer::class,
@@ -117,7 +114,7 @@ it("generates typescript types that the model conforms to", function() {
         'mentor.directedMovies',
         'mentor.awards',
         'apprentices.directedMovies',
-        'apprentices.awards'
+        'apprentices.awards',
     ])->get();
     $peopleJson = $people->toJson(JSON_PRETTY_PRINT);
     

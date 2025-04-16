@@ -72,4 +72,3 @@ it('can define the relative output path', function () {
 
     expect($this->temporaryDirectory->path('resources/other-index.d.ts'))->toMatchFileSnapshot();
 });
-

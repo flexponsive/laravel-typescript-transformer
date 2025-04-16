@@ -2,12 +2,11 @@
 
 namespace Spatie\LaravelTypeScriptTransformer\Tests\Fixtures;
 
-use Illuminate\Database\Seeder;
-use Spatie\LaravelTypeScriptTransformer\Tests\Fixtures\Models\Person;
-use Spatie\LaravelTypeScriptTransformer\Tests\Fixtures\Models\Movie; 
-use Spatie\LaravelTypeScriptTransformer\Tests\Fixtures\Models\Award;
 use Carbon\Carbon;
-
+use Illuminate\Database\Seeder;
+use Spatie\LaravelTypeScriptTransformer\Tests\Fixtures\Models\Award;
+use Spatie\LaravelTypeScriptTransformer\Tests\Fixtures\Models\Movie;
+use Spatie\LaravelTypeScriptTransformer\Tests\Fixtures\Models\Person;
 
 class MovieTestDataSeeder extends Seeder
 {
@@ -40,7 +39,7 @@ class MovieTestDataSeeder extends Seeder
             'date_of_birth' => Carbon::parse('1988-11-20'),
             'mentor_id' => $eleanor->id,
             'awards_received' => ([
-                ['award' => 'Rising Star Trophy', 'year' => 2015, 'category' => 'Best Newcomer']
+                ['award' => 'Rising Star Trophy', 'year' => 2015, 'category' => 'Best Newcomer'],
             ]),
         ]);
 
@@ -84,7 +83,7 @@ class MovieTestDataSeeder extends Seeder
             'metadata' => [
                 'world_building' => 'extensive',
                 'cgi_budget' => 50000000,
-                'themes' => ['exploration', 'survival', 'humanity']
+                'themes' => ['exploration', 'survival', 'humanity'],
             ],
             'box_office' => 450000000.50, // High box office
             'runtime' => 155.5,
@@ -101,7 +100,7 @@ class MovieTestDataSeeder extends Seeder
             'rating' => 8, // High rating
             'metadata' => [
                 'style' => 'neo-noir',
-                'setting' => 'urban dystopia'
+                'setting' => 'urban dystopia',
             ],
             'box_office' => 85000000.00, // Moderate box office
             'runtime' => 118.0,
@@ -117,7 +116,7 @@ class MovieTestDataSeeder extends Seeder
             'plot' => 'A psychological thriller about a radio host who intercepts a strange signal.',
             'rating' => null, // Not yet rated
             'metadata' => ([
-                'genre_tags' => ['thriller', 'mystery', 'psychological']
+                'genre_tags' => ['thriller', 'mystery', 'psychological'],
             ]),
             'box_office' => null, // Not released
             'runtime' => null, // Not finalized
@@ -154,7 +153,7 @@ class MovieTestDataSeeder extends Seeder
                 'salary' => 3000000.00,
                 'contract_details' => ([ // Specific contract details
                     'sequel_option' => true,
-                    'stunt_double_required' => false
+                    'stunt_double_required' => false,
                 ]),
             ],
             $sam->id => [
@@ -162,7 +161,7 @@ class MovieTestDataSeeder extends Seeder
                 'billing_order' => 2, // Supporting
                 'salary' => 2000000.00,
                 'contract_details' => ([
-                    'stunt_coordinator_consult' => true
+                    'stunt_coordinator_consult' => true,
                 ]),
             ],
         ]);
