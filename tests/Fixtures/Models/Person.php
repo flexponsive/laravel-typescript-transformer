@@ -12,12 +12,15 @@ use Spatie\LaravelTypeScriptTransformer\Tests\Fixtures\Enums\PersonType;
 /** @typescript */
 class Person extends Model
 {
-    protected $casts = [
-        'awards_received' => 'array',
-        'net_worth' => 'decimal:2',
-        'date_of_birth' => 'date',
-        'type' => PersonType::class,
-    ];
+    protected function casts(): array
+    {
+        return [
+            'awards_received' => 'array',
+            'net_worth' => 'decimal:2',
+            'date_of_birth' => 'date:Y-m-d',
+            'type' => PersonType::class,
+        ];
+    }
 
     public function movies(): BelongsToMany
     {

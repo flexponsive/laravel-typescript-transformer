@@ -22,19 +22,6 @@ beforeEach(function () {
     );
 });
 
-it('can run the migrations', function () {
-    $tables = [
-        'people',
-        'movies',
-        'castings',
-        'awards',
-    ];
-
-    foreach ($tables as $table) {
-        expect(Schema::hasTable($table))->toBeTrue("Table {$table} should exist");
-    }
-});
-
 it('can transform the movie model', function () {
     $type = $this->transformer->transform(
         new ReflectionClass(Movie::class),
@@ -95,11 +82,24 @@ it('can transform end-to-end', function () {
 
 });
 
-it("can serialize to json", function() {
-    // set the test time to 1st january 2025
-    Carbon\Carbon::setTestNow('2025-01-01 00:00:00');
+it("generates typescript types that the model conforms to", function() {
+    // generate the typescript types for our eloquent models
+    $outputPath = $this->temporaryDirectory->path('models.d.ts');
+    config()->set('typescript-transformer.auto_discover_types', [
+        __DIR__ . '/../Fixtures/Models',
+        __DIR__ . '/../Fixtures/Enums'
+    ]);
+    config()->set('typescript-transformer.transformers', [
+        \Spatie\TypeScriptTransformer\Transformers\EnumTransformer::class,
+        \Spatie\LaravelTypeScriptTransformer\Transformers\EloquentModelTransformer::class,
+    ]);
+    config()->set('typescript-transformer.output_file', $outputPath);
+    $this->artisan('typescript:transform')->assertExitCode(0);
+    $typeDefinitions = file_get_contents($outputPath);
 
-    // Let's run the sample data seeder
+    // load the sample data and serialize it to json
+
+    Carbon\Carbon::setTestNow('2025-01-01 00:00:00');     // set the test time to 1st january 2025
     $this->artisan("db:seed", [
         '--class' => '\Spatie\LaravelTypeScriptTransformer\Tests\Fixtures\MovieTestDataSeeder',
         '--force' => true,
@@ -120,6 +120,13 @@ it("can serialize to json", function() {
         'apprentices.awards'
     ])->get();
     $peopleJson = $people->toJson(JSON_PRETTY_PRINT);
-    expect($peopleJson)->toMatchSnapshot();
+    
 
+    $typescriptFile = <<<TS
+{$typeDefinitions};
+
+const people: Spatie.LaravelTypeScriptTransformer.Tests.Fixtures.Models.Person[] = {$peopleJson};
+TS;
+
+    expect($typescriptFile)->toMatchSnapshot();
 });

@@ -14,13 +14,13 @@ export type Award =  {
     awardable: any;
 };
 export type Casting =  {
-    id: number;
+    id?: number;
     movie_id: number;
     person_id: number;
     character_name: string;
     billing_order: number | null;
     salary: string | null;
-    contract_details: any[] | null;
+    contract_details: any | null;
     created_at: string | null;
     updated_at: string | null;
     movie: Movie;
@@ -31,7 +31,7 @@ export type Movie =  {
     title: string;
     plot: string | null;
     rating: number | null;
-    metadata: any[] | null;
+    metadata: any | null;
     box_office: number | null;
     runtime: number | null;
     release_date: string | null;
@@ -49,14 +49,14 @@ export type Person =  {
     name: string;
     biography: string | null;
     type: string;
-    awards_received: any[] | null;
+    awards_received: any | null;
     net_worth: string | null;
     date_of_birth: string | null;
     mentor_id: number | null;
     created_at: string | null;
     updated_at: string | null;
     movies: Array<Movie & { casting: Casting }>;
-    directedMovies: Movie[];
+    directed_movies: Movie[];
     mentor: Person | null;
     apprentices: Person[];
     awards: any[];

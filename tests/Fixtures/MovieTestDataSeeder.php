@@ -7,7 +7,7 @@ use Spatie\LaravelTypeScriptTransformer\Tests\Fixtures\Models\Person;
 use Spatie\LaravelTypeScriptTransformer\Tests\Fixtures\Models\Movie; 
 use Spatie\LaravelTypeScriptTransformer\Tests\Fixtures\Models\Award;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\DB; // Needed for Casting pivot
+
 
 class MovieTestDataSeeder extends Seeder
 {
@@ -28,7 +28,7 @@ class MovieTestDataSeeder extends Seeder
             'net_worth' => 75000000.00,
             'date_of_birth' => Carbon::parse('1965-03-15'),
             'mentor_id' => null, // No mentor
-            'awards_received' => json_encode([]), // Will receive an award later
+            'awards_received' => ([]), // Will receive an award later
         ]);
 
         // 2. Marcus Bellweather: Versatile Actor, Mentored by Eleanor
@@ -39,7 +39,7 @@ class MovieTestDataSeeder extends Seeder
             'net_worth' => 25000000.00,
             'date_of_birth' => Carbon::parse('1988-11-20'),
             'mentor_id' => $eleanor->id,
-            'awards_received' => json_encode([
+            'awards_received' => ([
                 ['award' => 'Rising Star Trophy', 'year' => 2015, 'category' => 'Best Newcomer']
             ]),
         ]);
@@ -52,7 +52,7 @@ class MovieTestDataSeeder extends Seeder
             'net_worth' => 8000000.00,
             'date_of_birth' => Carbon::parse('1995-07-01'),
             'mentor_id' => null,
-            'awards_received' => json_encode([]),
+            'awards_received' => ([]),
         ]);
 
         // 4. Sam "The Rocket" Riley: Action Star
@@ -63,7 +63,7 @@ class MovieTestDataSeeder extends Seeder
             'net_worth' => 35000000.00,
             'date_of_birth' => Carbon::parse('1985-01-10'),
             'mentor_id' => null,
-            'awards_received' => json_encode([]),
+            'awards_received' => ([]),
         ]);
 
         // 5. Additional Director for "Crimson Alley" (less detailed)
@@ -81,11 +81,11 @@ class MovieTestDataSeeder extends Seeder
             'title' => "Nebula's Dawn",
             'plot' => 'A sweeping sci-fi saga about colonizing a distant galaxy.',
             'rating' => 7, // Moderate rating
-            'metadata' => json_encode([
+            'metadata' => [
                 'world_building' => 'extensive',
                 'cgi_budget' => 50000000,
                 'themes' => ['exploration', 'survival', 'humanity']
-            ]),
+            ],
             'box_office' => 450000000.50, // High box office
             'runtime' => 155.5,
             'release_date' => Carbon::parse('2023-05-19'),
@@ -99,10 +99,10 @@ class MovieTestDataSeeder extends Seeder
             'title' => 'Crimson Alley',
             'plot' => 'A gritty neo-noir thriller set in a rain-soaked metropolis.',
             'rating' => 8, // High rating
-            'metadata' => json_encode([
+            'metadata' => [
                 'style' => 'neo-noir',
                 'setting' => 'urban dystopia'
-            ]),
+            ],
             'box_office' => 85000000.00, // Moderate box office
             'runtime' => 118.0,
             'release_date' => Carbon::parse('2024-01-12'),
@@ -116,7 +116,7 @@ class MovieTestDataSeeder extends Seeder
             'title' => 'Echoes in the Static',
             'plot' => 'A psychological thriller about a radio host who intercepts a strange signal.',
             'rating' => null, // Not yet rated
-            'metadata' => json_encode([
+            'metadata' => ([
                 'genre_tags' => ['thriller', 'mystery', 'psychological']
             ]),
             'box_office' => null, // Not released
@@ -131,73 +131,55 @@ class MovieTestDataSeeder extends Seeder
         // --- Castings (Linking People to Movies) ---
 
         // Nebula's Dawn Cast
-        DB::table('castings')->insert([
-            [
-                'movie_id' => $nebulaDawn->id,
-                'person_id' => $marcus->id,
+        $nebulaDawn->cast()->sync([
+            $marcus->id => [
                 'character_name' => 'Commander Jax',
                 'billing_order' => 1, // Lead
                 'salary' => 5000000.00,
                 'contract_details' => null,
-                'created_at' => now(), 'updated_at' => now()
             ],
-            [
-                'movie_id' => $nebulaDawn->id,
-                'person_id' => $chloe->id,
+            $chloe->id => [
                 'character_name' => 'Dr. Aris Thorne',
                 'billing_order' => 2, // Supporting
                 'salary' => 1500000.00,
                 'contract_details' => null,
-                'created_at' => now(), 'updated_at' => now()
             ],
         ]);
 
         // Crimson Alley Cast
-        DB::table('castings')->insert([
-            [
-                'movie_id' => $crimsonAlley->id,
-                'person_id' => $marcus->id,
+        $crimsonAlley->cast()->sync([
+            $marcus->id => [
                 'character_name' => 'Detective Miles Corbin',
                 'billing_order' => 1, // Lead
                 'salary' => 3000000.00,
-                'contract_details' => json_encode([ // Specific contract details
+                'contract_details' => ([ // Specific contract details
                     'sequel_option' => true,
                     'stunt_double_required' => false
                 ]),
-                'created_at' => now(), 'updated_at' => now()
             ],
-            [
-                'movie_id' => $crimsonAlley->id,
-                'person_id' => $sam->id,
+            $sam->id => [
                 'character_name' => 'Victor "The Ghost" Martel',
                 'billing_order' => 2, // Supporting
                 'salary' => 2000000.00,
-                'contract_details' => json_encode([
+                'contract_details' => ([
                     'stunt_coordinator_consult' => true
                 ]),
-                'created_at' => now(), 'updated_at' => now()
             ],
         ]);
 
         // Echoes in the Static Cast
-        DB::table('castings')->insert([
-            [
-                'movie_id' => $echoesStatic->id,
-                'person_id' => $sam->id,
+        $echoesStatic->cast()->sync([
+            $sam->id => [
                 'character_name' => 'Jack Ryder (Radio Host)',
                 'billing_order' => 1, // Lead
                 'salary' => 4000000.00,
                 'contract_details' => null,
-                'created_at' => now(), 'updated_at' => now()
             ],
-            [
-                'movie_id' => $echoesStatic->id,
-                'person_id' => $marcus->id,
+            $marcus->id => [
                 'character_name' => 'Mysterious Caller (Voice)',
                 'billing_order' => 5, // Cameo, lower billing
                 'salary' => 50000.00, // Cameo salary
-                'contract_details' => json_encode(['voice_only' => true]),
-                'created_at' => now(), 'updated_at' => now()
+                'contract_details' => (['voice_only' => true]),
             ],
         ]);
 

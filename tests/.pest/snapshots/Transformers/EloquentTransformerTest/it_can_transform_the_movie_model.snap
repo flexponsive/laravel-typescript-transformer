@@ -3,7 +3,7 @@
     title: string;
     plot: string | null;
     rating: number | null;
-    metadata: any[] | null;
+    metadata: any | null;
     box_office: number | null;
     runtime: number | null;
     release_date: string | null;

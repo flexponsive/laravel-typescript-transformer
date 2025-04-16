@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 class Movie extends Model
 {
     protected $casts = [
-        'metadata' => 'array',
+        'metadata' => 'json',
         'box_office' => 'double',
         'runtime' => 'float',
         'release_date' => 'date',
@@ -27,6 +27,12 @@ class Movie extends Model
     public function cast(): BelongsToMany
     {
         return $this->belongsToMany(Person::class, 'castings')
+            ->withPivot([
+                'character_name',
+                'billing_order',
+                'salary',
+                'contract_details',
+            ])
             ->using(Casting::class);
     }
 
