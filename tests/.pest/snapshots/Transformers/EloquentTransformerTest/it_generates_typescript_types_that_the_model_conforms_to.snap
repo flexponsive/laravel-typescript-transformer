@@ -11,7 +11,7 @@ export type Award =  {
     awardable_id: number;
     created_at: string | null;
     updated_at: string | null;
-    awardable: any;
+    awardable? : any;
 };
 export type Casting =  {
     id?: number;
@@ -23,8 +23,8 @@ export type Casting =  {
     contract_details: any | null;
     created_at: string | null;
     updated_at: string | null;
-    movie: Movie;
-    person: Person;
+    movie? : Movie;
+    person? : Person;
 };
 export type Movie =  {
     id: number;
@@ -40,9 +40,9 @@ export type Movie =  {
     director_id: number | null;
     created_at: string | null;
     updated_at: string | null;
-    director: Person | null;
-    cast: Array<Person & { pivot: Casting }>;
-    awards: any[];
+    director? : Person | null;
+    cast? : Array<Person & { pivot: Casting }>;
+    awards? : any[];
 };
 export type Person =  {
     id: number;
@@ -55,11 +55,11 @@ export type Person =  {
     mentor_id: number | null;
     created_at: string | null;
     updated_at: string | null;
-    movies: Array<Movie & { casting: Casting }>;
-    directed_movies: Movie[];
-    mentor: Person | null;
-    apprentices: Person[];
-    awards: any[];
+    movies? : Array<Movie & { casting: Casting }>;
+    directed_movies? : Movie[];
+    mentor? : Person | null;
+    apprentices? : Person[];
+    awards? : any[];
 };
 }
 ;

@@ -118,7 +118,7 @@ class EloquentModelTransformer implements Transformer
                 $relationSnakeName = Str::snake($relation['name']);
                 
                 $type = $nullable ? "{$type} | null" : $type;
-                return "    {$relationSnakeName}: {$type};";
+                return "    {$relationSnakeName}? : {$type};";
             })
             ->join(PHP_EOL);
     }
